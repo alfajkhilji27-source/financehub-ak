@@ -133,13 +133,16 @@ document.getElementById("password").value;
 
 signInWithEmailAndPassword(auth,email,password)
 
-.then(() => {
+..then(() => {
 
 document.getElementById("message").innerHTML =
 "Login Successful ✅";
 
-})
+setTimeout(() => {
+window.location.href = "dashboard.html";
+}, 1000);
 
+})
 .catch((error) => {
 
 document.getElementById("message").innerHTML =
