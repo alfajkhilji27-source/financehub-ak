@@ -14,6 +14,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 min-height:100vh;
+margin:0;
 }
 
 .container{
@@ -36,6 +37,7 @@ padding:12px;
 margin:10px 0;
 border:none;
 border-radius:6px;
+box-sizing:border-box;
 }
 
 button{
@@ -48,6 +50,10 @@ border:none;
 border-radius:6px;
 font-weight:bold;
 cursor:pointer;
+}
+
+.google-btn{
+margin-top:15px;
 }
 
 #message{
@@ -64,11 +70,16 @@ color:lightgreen;
 <h1>FinanceHubAK</h1>
 
 <input type="email" id="email" placeholder="Email">
+
 <input type="password" id="password" placeholder="Password">
 
 <button onclick="signup()">Sign Up</button>
 
 <button onclick="login()">Login</button>
+
+<button class="google-btn" onclick="googleLogin()">
+Google Sign In
+</button>
 
 <div id="message"></div>
 
@@ -81,7 +92,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
 getAuth,
 createUserWithEmailAndPassword,
-signInWithEmailAndPassword
+signInWithEmailAndPassword,
+GoogleAuthProvider,
+signInWithPopup,
+onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -97,6 +111,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+onAuthStateChanged(auth,(user)=>{
+if(user){
+window.location.href="dashboard.html";
+}
+});
+
 window.signup = function(){
 
 const email =
@@ -111,6 +131,10 @@ createUserWithEmailAndPassword(auth,email,password)
 
 document.getElementById("message").innerHTML =
 "Account Created Successfully ✅";
+
+setTimeout(()=>{
+window.location.href="dashboard.html";
+},1000);
 
 })
 
@@ -138,12 +162,39 @@ signInWithEmailAndPassword(auth,email,password)
 document.getElementById("message").innerHTML =
 "Login Successful ✅";
 
-setTimeout(() => {
-window.location.href = "dashboard.html";
-}, 1000);
+setTimeout(()=>{
+window.location.href="dashboard.html";
+},1000);
 
 })
+
 .catch((error) => {
+
+document.getElementById("message").innerHTML =
+error.message;
+
+});
+
+}
+
+window.googleLogin = function(){
+
+const provider = new GoogleAuthProvider();
+
+signInWithPopup(auth,provider)
+
+.then(()=>{
+
+document.getElementById("message").innerHTML =
+"Google Login Successful ✅";
+
+setTimeout(()=>{
+window.location.href="dashboard.html";
+},1000);
+
+})
+
+.catch((error)=>{
 
 document.getElementById("message").innerHTML =
 error.message;
@@ -154,5 +205,4 @@ error.message;
 
 </script>
 
-</body>
-</html>
+</bo
