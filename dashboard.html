@@ -1,10 +1,136 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanceHubAK Dashboard</title>
+
+<style>
+body{
+background:black;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+}
+
+.logo{
+text-align:center;
+font-size:45px;
+font-weight:bold;
+color:gold;
+margin-top:20px;
+}
+
+.title{
+text-align:center;
+margin-bottom:30px;
+}
+
+.card{
+background:#111;
+border:1px solid gold;
+border-radius:12px;
+padding:20px;
+margin:20px auto;
+max-width:700px;
+}
+
+h2{
+color:gold;
+}
+
+button{
+background:gold;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+a{
+color:gold;
+text-decoration:none;
+}
+</style>
 </head>
-<body style="background:black;color:white;text-align:center;font-family:Arial;padding:40px;">
-<h1>User Dashboard</h1>
+
+<body>
+
+<div class="logo">FAK</div>
+
+<div class="title">
+<h1>FinanceHubAK Dashboard</h1>
+</div>
+
+<div class="card">
+<h2>Profile</h2>
+<p id="userEmail">Loading...</p>
+</div>
+
+<div class="card">
+<h2>Purchased E-Books</h2>
+<p>No E-Books Purchased Yet</p>
+</div>
+
+<div class="card">
+<h2>Competition Score</h2>
 <p>Coming Soon</p>
+</div>
+
+<div class="card">
+<button onclick="logout()">Logout</button>
+</div>
+
+<div style="text-align:center;">
+<a href="index.html">← Back To Home</a>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDq8fq5Uwi_jzfgvqDRukpkXKh25tgE2Eo",
+  authDomain: "financehubak-ede04.firebaseapp.com",
+  projectId: "financehubak-ede04",
+  storageBucket: "financehubak-ede04.firebasestorage.app",
+  messagingSenderId: "482089772321",
+  appId: "1:482089772321:web:8fa91f4b5330d52c89ca60",
+  measurementId: "G-NXC1HM6VD9"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+document.getElementById("userEmail").innerHTML =
+"Logged in as: " + user.email;
+}else{
+window.location.href="login.html";
+}
+
+});
+
+window.logout = function(){
+
+signOut(auth).then(()=>{
+window.location.href="login.html";
+});
+
+}
+
+</script>
+
 </body>
-</html>
+</
