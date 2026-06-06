@@ -49,5 +49,61 @@ color:lightgreen;
 <div class="box">
 <h2>📘 Zero to 1 Crore in 150 Days</h2>
 <p>Price: ₹49</p>
+<p>UPI ID: alfajak95@ybl</p>
+<button onclick="buyBook()">
+Save Purchase Request
+</button>
+<div id="msg"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const supabaseUrl =
+"https://ckvtzwrveebfnujympzd.supabase.co";
+
+const supabaseKey =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrdnR6d3J2ZWViZm51anltcHpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NjE2MzIsImV4cCI6MjA5NjIzNzYzMn0.HCtHJt0CpWykuGKUVy9xvfOEfDwOepfs77E7ghczlYc";
+
+const supabase =
+window.supabase.createClient(
+supabaseUrl,
+supabaseKey
+);
+
+async function buyBook(){
+
+const email =
+document.getElementById("email").value;
+
+const { error } =
+await supabase
+.from("purchases")
+.insert([
+{
+email: email,
+ebook_name:
+"Zero to 1 Crore in 150 Days",
+payment_status:
+"pending"
+}
+]);
+
+if(error){
+
+document.getElementById("msg").innerHTML =
+error.message;
+
+}else{
+
+document.getElementById("msg").innerHTML =
+"Purchase Request Saved ✅";
+
+}
+
+}
+</body>
+</html>
+:::
+
 
 
